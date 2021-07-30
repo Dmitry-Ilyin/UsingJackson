@@ -23,7 +23,7 @@ public class App {
             System.out.println("-------------------------");
             Operations.printSecuritiesValidUntilTodayAndTheirCount(list);
             System.out.println("-------------------------");
-            Operations.printCompaniesFoundedBeforeBeforeDate(list, "13.01.1970");
+            Operations.printCompaniesFoundedBeforeBeforeDate(list, "01.04,75");
             System.out.println("-------------------------");
             Operations.printIdANdCodeSecurity(list, "USD");
 

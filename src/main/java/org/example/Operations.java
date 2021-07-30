@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,28 +46,22 @@ public class Operations {
 
     public static void printCompaniesFoundedBeforeBeforeDate(List<Company> list, String time) throws ExceptionDateInput {
         LocalDate date;
-        Pattern pattern1 = Pattern.compile("^(\\d{2})(\\.)(\\d{2})(\\2|\\,)(\\d{2}|\\d{4})$");
-        Pattern pattern2 = Pattern.compile("^(\\d{2})(\\/)(\\d{2})(\\2)(\\d{2}|\\d{4})$");
-        Matcher matcher1 = pattern1.matcher(time);
-        Matcher matcher2 = pattern2.matcher(time);
-        boolean found1 = matcher1.matches();
-        boolean found2 = matcher2.matches();
+        boolean found1 = Pattern.compile("^(\\d{2})(\\.)(\\d{2})(\\2)(\\d{4})$").matcher(time).matches();
+        boolean found2 = Pattern.compile("^(\\d{2})(\\/)(\\d{2})(\\2)(\\d{2}|\\d{4})$").matcher(time).matches();
+        boolean found3 = Pattern.compile("^(\\d{2})(\\.)(\\d{2})(\\,)(\\d{2})$").matcher(time).matches();
 
-        if(found1 || found2){
+        if(found1 || found2 || found3){
             String[] str = time.split("[\\/\\,\\.]");
             StringBuilder sb = new StringBuilder();
             for(String s : str){
                 sb.append(s).append(" ");
             }
             String temp = sb.toString().trim();
-            if(str[2].length() == 4){
-                DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd MM yyyy");
-                date = LocalDate.parse(temp, formatter1);
-            }
-            else {
-                DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd MM yy");
-                date = LocalDate.parse(temp, formatter2);
-            }
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .appendPattern("dd MM ")
+                    .appendValueReduced(ChronoField.YEAR, 2,4, 1900)
+                    .toFormatter();
+            date = LocalDate.parse(temp, formatter);
         }
         else {
             throw new ExceptionDateInput("Ошибка ввода даты. Используйте формат : ДД.ММ.ГГГГ | ДД.ММ,ГГ | ДД/ММ/ГГГГ | ДД/ММ/ГГГГ");

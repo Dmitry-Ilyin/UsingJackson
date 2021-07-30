@@ -1,51 +1,18 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class Security {
+    @JsonProperty("name")
     public String name;
+    @JsonProperty("currency")
     public List<String> currency;
+    @JsonProperty("code")
     public String code;
+    @JsonProperty("date")
     public String date;
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(List<String> currency) {
-        this.currency = currency;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return "Security{" +
-                "name='" + name + '\'' +
-                ", currency=" + currency +
-                ", code='" + code + '\'' +
-                ", date='" + date + '\'' +
-                '}';
-    }
 }
